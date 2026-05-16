@@ -9,9 +9,26 @@ import SwiftUI
 
 @main
 struct Music_AI_Code_ChallengeApp: App {
+    @State private var showSplash = true
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if showSplash {
+                    SplashScreenView()
+                } else {
+                    ContentView()
+                }
+            }
+            .onAppear {
+                guard showSplash else { return }
+                Task {
+                    try? await Task.sleep(for: .seconds(2))
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        showSplash = false
+                    }
+                }
+            }
         }
     }
 }
