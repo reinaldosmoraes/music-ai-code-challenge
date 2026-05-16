@@ -15,6 +15,8 @@ private enum ViewConstants {
     static let menuButtonSize: CGFloat = 44
     static let titleSize: CGFloat = 16
     static let subtitleSize: CGFloat = 10
+    static let cardLineLimit: Int = 1
+    static let buttonFontSize: CGFloat = 16
 }
 
 struct SongCardView<ViewModel: SongCardViewModeling>: View {
@@ -32,12 +34,12 @@ struct SongCardView<ViewModel: SongCardViewModeling>: View {
                 Text(viewModel.title)
                     .font(.system(size: ViewConstants.titleSize, weight: .medium))
                     .foregroundStyle(Color.Label.primary)
-                    .lineLimit(1)
+                    .lineLimit(ViewConstants.cardLineLimit)
 
                 Text(viewModel.subtitle)
                     .font(.system(size: ViewConstants.subtitleSize, weight: .medium))
                     .foregroundStyle(Color.Label.secondary)
-                    .lineLimit(1)
+                    .lineLimit(ViewConstants.cardLineLimit)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityElement(children: .combine)
@@ -47,7 +49,7 @@ struct SongCardView<ViewModel: SongCardViewModeling>: View {
 
                 Button(action: onMenuTapped) {
                     AppImages.ellipsis
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.system(size: ViewConstants.buttonFontSize, weight: .medium))
                         .foregroundStyle(Color.Label.primary)
                         .frame(
                             width: ViewConstants.menuButtonSize,
@@ -56,7 +58,7 @@ struct SongCardView<ViewModel: SongCardViewModeling>: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("More options")
+                .accessibilityLabel(LocalizedString.moreOptions)
             }
         }
     }
