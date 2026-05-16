@@ -17,6 +17,6 @@ public struct AppImages {
 
     static let play = Image(systemName: "play.fill")
     static let pause = Image(systemName: "pause.fill")
-    static let backward = Image(systemName: "backward.end.alt")
-    static let forward = Image(systemName: "forward.end.alt")
+    static let backward = Image(systemName: "backward.end.alt.fill")
+    static let forward = Image(systemName: "forward.end.alt.fill")
 }

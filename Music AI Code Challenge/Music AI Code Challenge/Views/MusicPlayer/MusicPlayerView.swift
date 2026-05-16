@@ -253,8 +253,13 @@ struct MusicPlayerView: View {
         HStack(spacing: ViewConstants.transportSpacing) {
             transportButton(
                 image: AppImages.backward,
-                accessibilityLabel: "Skip backward",
-                action: viewModel.skipBackward
+                accessibilityLabel: "Previous song",
+                isEnabled: viewModel.canPlayPrevious,
+                action: {
+                    Task {
+                        await viewModel.playPreviousTrack()
+                    }
+                }
             )
 
             Button(action: viewModel.togglePlayPause) {
@@ -274,8 +279,13 @@ struct MusicPlayerView: View {
 
             transportButton(
                 image: AppImages.forward,
-                accessibilityLabel: "Skip forward",
-                action: viewModel.skipForward
+                accessibilityLabel: "Next song",
+                isEnabled: viewModel.canPlayNext,
+                action: {
+                    Task {
+                        await viewModel.playNextTrack()
+                    }
+                }
             )
         }
     }
@@ -283,12 +293,13 @@ struct MusicPlayerView: View {
     private func transportButton(
         image: Image,
         accessibilityLabel: String,
+        isEnabled: Bool,
         action: @escaping () -> Void
     ) -> some View {
         Button(action: action) {
             image
                 .font(.system(size: 22, weight: .semibold))
-                .foregroundStyle(.primary)
+                .foregroundStyle(isEnabled ? .primary : .secondary)
                 .frame(
                     width: ViewConstants.transportButtonSize,
                     height: ViewConstants.transportButtonSize
@@ -296,7 +307,7 @@ struct MusicPlayerView: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(accessibilityLabel)
-        .disabled(viewModel.errorMessage != nil)
+        .disabled(viewModel.errorMessage != nil || !isEnabled)
     }
 
 }

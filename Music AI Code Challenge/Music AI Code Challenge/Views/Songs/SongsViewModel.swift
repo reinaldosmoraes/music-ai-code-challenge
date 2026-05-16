@@ -111,12 +111,17 @@ final class SongsViewModel: SongsViewModeling {
             return
         }
 
+        let playlist = makePlaylist()
+
         if let playerViewModel {
+            playerViewModel.updatePlaylist(playlist, currentTrackID: playerModel.id)
             Task {
                 await playerViewModel.update(with: playerModel)
             }
         } else {
-            playerViewModel = MusicPlayerViewModel(model: playerModel)
+            let newPlayerViewModel = MusicPlayerViewModel(model: playerModel)
+            newPlayerViewModel.updatePlaylist(playlist, currentTrackID: playerModel.id)
+            playerViewModel = newPlayerViewModel
             playerPresentation = .expanded
         }
     }
@@ -165,6 +170,7 @@ final class SongsViewModel: SongsViewModeling {
             guard !Task.isCancelled else { return }
             songsByID = Dictionary(uniqueKeysWithValues: songs.map { ($0.id, $0) })
             songItems = songs.map(makeListItem(from:))
+            syncPlayerQueue()
         } catch is CancellationError {
             return
         } catch {
@@ -172,6 +178,18 @@ final class SongsViewModel: SongsViewModeling {
             songItems = []
             errorMessage = error.localizedDescription
         }
+    }
+
+    private func makePlaylist() -> [MusicPlayerModel] {
+        songItems.compactMap { item in
+            MusicPlayerModel(song: item.song)
+        }
+    }
+
+    private func syncPlayerQueue() {
+        guard let playerViewModel else { return }
+        let playlist = makePlaylist()
+        playerViewModel.updatePlaylist(playlist, currentTrackID: playerViewModel.currentTrackID)
     }
 
     private func makeListItem(from song: Song) -> SongListItem {
