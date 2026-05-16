@@ -9,7 +9,7 @@ import Foundation
 
 struct MockSongsService: SongsFetching {
     private static let catalog: [Song] = [
-        Song(title: "Purple Rain", artist: "Prince", album: "Purple Rain", artworkAssetName: "app-logo"),
+        Song(title: "Purple Rain", artist: "Prince", album: "Purple Rain"),
         Song(title: "Bohemian Rhapsody", artist: "Queen", album: "A Night at the Opera"),
         Song(title: "Billie Jean", artist: "Michael Jackson", album: "Thriller"),
         Song(title: "Like a Rolling Stone", artist: "Bob Dylan", album: "Highway 61 Revisited"),

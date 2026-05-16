@@ -10,27 +10,22 @@ import Foundation
 // MARK: - Model
 
 struct SongCardModel: Equatable, Identifiable, Sendable {
-    let id: UUID
+    let id: String
     let title: String
     let subtitle: String
-    let artwork: SongCardArtwork
+    let artworkURL: URL?
 
     init(
-        id: UUID = UUID(),
+        id: String = UUID().uuidString,
         title: String,
         subtitle: String,
-        artwork: SongCardArtwork = .placeholder
+        artworkURL: URL? = nil
     ) {
         self.id = id
         self.title = title
         self.subtitle = subtitle
-        self.artwork = artwork
+        self.artworkURL = artworkURL
     }
-}
-
-enum SongCardArtwork: Equatable, Sendable {
-    case asset(name: String)
-    case placeholder
 }
 
 // MARK: - Presentation contract
@@ -38,7 +33,7 @@ enum SongCardArtwork: Equatable, Sendable {
 protocol SongCardViewModeling {
     var title: String { get }
     var subtitle: String { get }
-    var artwork: SongCardArtwork { get }
+    var artworkURL: URL? { get }
     var onMenuTapped: (() -> Void)? { get }
 }
 
@@ -50,7 +45,7 @@ protocol SongCardViewModeling {
 
     var title: String { model.title }
     var subtitle: String { model.subtitle }
-    var artwork: SongCardArtwork { model.artwork }
+    var artworkURL: URL? { model.artworkURL }
 
     init(model: SongCardModel, onMenuTapped: (() -> Void)? = nil) {
         self.model = model

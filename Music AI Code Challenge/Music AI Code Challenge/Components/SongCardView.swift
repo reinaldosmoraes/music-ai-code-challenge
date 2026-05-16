@@ -17,6 +17,7 @@ private enum ViewConstants {
     static let subtitleSize: CGFloat = 10
     static let cardLineLimit: Int = 1
     static let buttonFontSize: CGFloat = 16
+    static let placeholderIconSize: CGFloat = 20
 }
 
 struct SongCardView<ViewModel: SongCardViewModeling>: View {
@@ -28,7 +29,7 @@ struct SongCardView<ViewModel: SongCardViewModeling>: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: ViewConstants.contentSpacing) {
-            SongCardArtworkView(artwork: viewModel.artwork)
+            SongCardArtworkView(url: viewModel.artworkURL)
 
             VStack(alignment: .leading, spacing: ViewConstants.textSpacing) {
                 Text(viewModel.title)
@@ -67,21 +68,25 @@ struct SongCardView<ViewModel: SongCardViewModeling>: View {
 // MARK: - Subviews
 
 private struct SongCardArtworkView: View {
-    let artwork: SongCardArtwork
+    let url: URL?
 
     var body: some View {
         Group {
-            switch artwork {
-            case .asset(let name):
-                Image(name)
-                    .resizable()
-                    .scaledToFill()
-            case .placeholder:
-                Image(systemName: "music.note")
-                    .font(.system(size: 20, weight: .medium))
-                    .foregroundStyle(Color.Label.secondary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.Label.secondary.opacity(0.15))
+            if let url {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    case .failure, .empty:
+                        artworkPlaceholder
+                    @unknown default:
+                        artworkPlaceholder
+                    }
+                }
+            } else {
+                artworkPlaceholder
             }
         }
         .frame(
@@ -96,6 +101,14 @@ private struct SongCardArtworkView: View {
         )
         .accessibilityHidden(true)
     }
+
+    private var artworkPlaceholder: some View {
+        Image(systemName: "photo")
+            .font(.system(size: ViewConstants.placeholderIconSize, weight: .medium))
+            .foregroundStyle(Color.Label.secondary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.Label.secondary.opacity(0.15))
+    }
 }
 
 // MARK: - Preview
@@ -107,7 +120,7 @@ private struct SongCardArtworkView: View {
                 model: SongCardModel(
                     title: "Purple Rain",
                     subtitle: "Prince",
-                    artwork: .asset(name: "app-logo")
+                    artworkURL: URL(string: "https://is1-ssl.mzstatic.com/image/thumb/Video113/v4/95/20/18/9520186e-1a50-04c0-78ef-e5a73db095ee/pr_source.jpg/60x60bb.jpg")
                 ),
                 onMenuTapped: {}
             )
@@ -118,7 +131,7 @@ private struct SongCardArtworkView: View {
                 model: SongCardModel(
                     title: "Purple Rain",
                     subtitle: "Prince",
-                    artwork: .asset(name: "app-logo")
+                    artworkURL: nil
                 ),
                 onMenuTapped: nil
             )

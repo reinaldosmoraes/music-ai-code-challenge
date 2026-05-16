@@ -40,6 +40,8 @@ struct SongsView: View {
             ProgressView()
         } else if let errorMessage = viewModel.errorMessage {
             errorState(message: errorMessage)
+        } else if viewModel.isSearchPromptVisible {
+            searchPromptState
         } else if viewModel.showsEmptyState {
             emptyState
         } else {
@@ -72,6 +74,15 @@ struct SongsView: View {
         }
     }
 
+    private var searchPromptState: some View {
+        ContentUnavailableView(
+            "Search iTunes",
+            systemImage: "magnifyingglass",
+            description: Text("Type at least 2 characters to search iTunes.")
+        )
+        .foregroundStyle(Color.Label.primary)
+    }
+
     private var emptyState: some View {
         ContentUnavailableView(
             "No songs found",
@@ -93,6 +104,10 @@ struct SongsView: View {
 
 // MARK: - Preview
 
-#Preview {
+#Preview("iTunes") {
     SongsView()
+}
+
+#Preview("Mock") {
+    SongsView(viewModel: SongsViewModel(songsService: MockSongsService()))
 }

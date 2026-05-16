@@ -10,7 +10,7 @@ import Foundation
 // MARK: - Row model
 
 struct SongListItem: Identifiable {
-    let id: UUID
+    let id: String
     let cardViewModel: SongCardViewModel
 }
 
@@ -23,8 +23,17 @@ protocol SongsViewModeling: AnyObject {
     var errorMessage: String? { get }
     var showsEmptyState: Bool { get }
 
+    var isSearchPromptVisible: Bool { get }
+
     func search() async
-    func handleMenuTap(for songID: UUID)
+    func handleMenuTap(for songID: String)
+}
+
+// MARK: - Search configuration
+
+private enum SearchConfiguration {
+    static let minimumCharacterCount = 2
+    static let debounceDuration: Duration = .seconds(1)
 }
 
 // MARK: - ViewModel
@@ -39,41 +48,73 @@ final class SongsViewModel: SongsViewModeling {
     private(set) var hasLoadedOnce = false
 
     var showsEmptyState: Bool {
-        hasLoadedOnce && !isLoading && errorMessage == nil && songItems.isEmpty
+        hasLoadedOnce
+            && !isLoading
+            && errorMessage == nil
+            && songItems.isEmpty
+            && !isSearchPromptVisible
+    }
+
+    var isSearchPromptVisible: Bool {
+        normalizedSearchQuery.count < SearchConfiguration.minimumCharacterCount
     }
 
     private let songsService: SongsFetching
     private var searchTask: Task<Void, Never>?
 
-    nonisolated init(songsService: SongsFetching = MockSongsService()) {
+    private var normalizedSearchQuery: String {
+        searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    nonisolated init(songsService: SongsFetching = ITunesSongsService()) {
         self.songsService = songsService
     }
 
     func search() async {
         searchTask?.cancel()
+
+        guard normalizedSearchQuery.count >= SearchConfiguration.minimumCharacterCount else {
+            resetForInsufficientQuery()
+            return
+        }
+
         searchTask = Task { [weak self] in
-            try? await Task.sleep(for: .milliseconds(300))
+            try? await Task.sleep(for: SearchConfiguration.debounceDuration)
             guard !Task.isCancelled else { return }
             await self?.performSearch()
         }
     }
 
-    func handleMenuTap(for songID: UUID) {
+    func handleMenuTap(for songID: String) {
         // Placeholder for future navigation to song options.
         _ = songID
     }
 
-    private func performSearch() async {
-        isLoading = true
+    private func resetForInsufficientQuery() {
+        isLoading = false
+        songItems = []
         errorMessage = nil
+        hasLoadedOnce = true
+    }
+
+    private func performSearch() async {
+        let query = normalizedSearchQuery
+        errorMessage = nil
+        hasLoadedOnce = true
+
+        guard query.count >= SearchConfiguration.minimumCharacterCount else {
+            resetForInsufficientQuery()
+            return
+        }
+
+        isLoading = true
 
         defer {
             isLoading = false
-            hasLoadedOnce = true
         }
 
         do {
-            let songs = try await songsService.searchSongs(query: searchText)
+            let songs = try await songsService.searchSongs(query: query)
             guard !Task.isCancelled else { return }
             songItems = songs.map(makeListItem(from:))
         } catch is CancellationError {

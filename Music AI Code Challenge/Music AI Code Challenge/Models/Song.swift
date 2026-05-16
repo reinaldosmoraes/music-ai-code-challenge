@@ -8,24 +8,24 @@
 import Foundation
 
 struct Song: Identifiable, Equatable, Sendable {
-    let id: UUID
+    let id: String
     let title: String
     let artist: String
     let album: String?
-    let artworkAssetName: String?
+    let artworkURL: URL?
 
     init(
-        id: UUID = UUID(),
+        id: String = UUID().uuidString,
         title: String,
         artist: String,
         album: String? = nil,
-        artworkAssetName: String? = nil
+        artworkURL: URL? = nil
     ) {
         self.id = id
         self.title = title
         self.artist = artist
         self.album = album
-        self.artworkAssetName = artworkAssetName
+        self.artworkURL = artworkURL
     }
 
     func toCardModel() -> SongCardModel {
@@ -36,18 +36,11 @@ struct Song: Identifiable, Equatable, Sendable {
             subtitle = artist
         }
 
-        let artwork: SongCardArtwork
-        if let artworkAssetName, !artworkAssetName.isEmpty {
-            artwork = .asset(name: artworkAssetName)
-        } else {
-            artwork = .placeholder
-        }
-
         return SongCardModel(
             id: id,
             title: title,
             subtitle: subtitle,
-            artwork: artwork
+            artworkURL: artworkURL
         )
     }
 }
