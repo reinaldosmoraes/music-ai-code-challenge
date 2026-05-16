@@ -38,10 +38,3 @@ struct SplashScreenView: View {
 #Preview {
     SplashScreenView()
 }
-
-extension Color {
-    enum Background {
-        static let gradientPrimary = Color("Background Gradient Primary")
-        static let gradientSecondary = Color("Background Gradient Secondary")
-    }
-}
