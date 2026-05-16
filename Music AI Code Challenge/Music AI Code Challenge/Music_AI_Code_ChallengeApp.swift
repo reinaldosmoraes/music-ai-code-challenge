@@ -17,7 +17,7 @@ struct Music_AI_Code_ChallengeApp: App {
                 if showSplash {
                     SplashScreenView()
                 } else {
-                    ContentView()
+                    SongsView()
                 }
             }
             .onAppear {

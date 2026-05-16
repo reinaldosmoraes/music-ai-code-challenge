@@ -12,4 +12,9 @@ extension Color {
         static let gradientPrimary = Color("Background Gradient Primary")
         static let gradientSecondary = Color("Background Gradient Secondary")
     }
+
+    enum Label {
+        static let primary = Color("Label Primary")
+        static let secondary = Color("Label Secondary")
+    }
 }
