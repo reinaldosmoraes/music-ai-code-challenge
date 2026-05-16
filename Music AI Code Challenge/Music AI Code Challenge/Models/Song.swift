@@ -13,19 +13,29 @@ struct Song: Identifiable, Equatable, Sendable {
     let artist: String
     let album: String?
     let artworkURL: URL?
+    let previewURL: URL?
+    let trackDuration: TimeInterval?
 
     init(
         id: String = UUID().uuidString,
         title: String,
         artist: String,
         album: String? = nil,
-        artworkURL: URL? = nil
+        artworkURL: URL? = nil,
+        previewURL: URL? = nil,
+        trackDuration: TimeInterval? = nil
     ) {
         self.id = id
         self.title = title
         self.artist = artist
         self.album = album
         self.artworkURL = artworkURL
+        self.previewURL = previewURL
+        self.trackDuration = trackDuration
+    }
+
+    var isPlayable: Bool {
+        previewURL != nil
     }
 
     func toCardModel() -> SongCardModel {

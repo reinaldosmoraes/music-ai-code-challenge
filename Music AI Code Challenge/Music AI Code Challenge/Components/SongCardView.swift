@@ -34,12 +34,12 @@ struct SongCardView<ViewModel: SongCardViewModeling>: View {
             VStack(alignment: .leading, spacing: ViewConstants.textSpacing) {
                 Text(viewModel.title)
                     .font(.system(size: ViewConstants.titleSize, weight: .medium))
-                    .foregroundStyle(Color.Label.primary)
+                    .foregroundStyle(.primary)
                     .lineLimit(ViewConstants.cardLineLimit)
 
                 Text(viewModel.subtitle)
                     .font(.system(size: ViewConstants.subtitleSize, weight: .medium))
-                    .foregroundStyle(Color.Label.secondary)
+                    .foregroundStyle(.secondary)
                     .lineLimit(ViewConstants.cardLineLimit)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -51,7 +51,7 @@ struct SongCardView<ViewModel: SongCardViewModeling>: View {
                 Button(action: onMenuTapped) {
                     AppImages.ellipsis
                         .font(.system(size: ViewConstants.buttonFontSize, weight: .medium))
-                        .foregroundStyle(Color.Label.primary)
+                        .foregroundStyle(.primary)
                         .frame(
                             width: ViewConstants.menuButtonSize,
                             height: ViewConstants.menuButtonSize
@@ -105,9 +105,9 @@ private struct SongCardArtworkView: View {
     private var artworkPlaceholder: some View {
         Image(systemName: "photo")
             .font(.system(size: ViewConstants.placeholderIconSize, weight: .medium))
-            .foregroundStyle(Color.Label.secondary)
+            .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.Label.secondary.opacity(0.15))
+            .background(Color.secondary.opacity(0.15))
     }
 }
 

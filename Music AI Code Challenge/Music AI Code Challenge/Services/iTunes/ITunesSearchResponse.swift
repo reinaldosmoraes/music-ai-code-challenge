@@ -18,4 +18,6 @@ struct ITunesTrackDTO: Decodable, Sendable {
     let artistName: String?
     let collectionName: String?
     let artworkUrl100: String?
+    let previewUrl: String?
+    let trackTimeMillis: Int?
 }

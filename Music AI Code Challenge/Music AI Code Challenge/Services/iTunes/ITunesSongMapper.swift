@@ -23,13 +23,17 @@ enum ITunesSongMapper {
         let artworkURL = track.artworkUrl100
             .flatMap(URL.init(string:))
             .map(Self.higherResolutionArtworkURL)
+        let previewURL = track.previewUrl.flatMap(URL.init(string:))
+        let trackDuration = track.trackTimeMillis.map { TimeInterval($0) / 1_000 }
 
         return Song(
             id: String(trackId),
             title: title,
             artist: artist,
             album: album?.isEmpty == false ? album : nil,
-            artworkURL: artworkURL
+            artworkURL: artworkURL,
+            previewURL: previewURL,
+            trackDuration: trackDuration
         )
     }
 
