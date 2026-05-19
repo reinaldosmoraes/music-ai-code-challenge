@@ -26,11 +26,45 @@ enum ITunesSongMapper {
         let previewURL = track.previewUrl.flatMap(URL.init(string:))
         let trackDuration = track.trackTimeMillis.map { TimeInterval($0) / 1_000 }
 
+        let collectionID = track.collectionId.map(String.init)
+
         return Song(
             id: String(trackId),
             title: title,
             artist: artist,
             album: album?.isEmpty == false ? album : nil,
+            collectionID: collectionID,
+            artworkURL: artworkURL,
+            previewURL: previewURL,
+            trackDuration: trackDuration
+        )
+    }
+
+    static func mapLookupTrack(_ result: ITunesLookupResultDTO, albumName: String?) -> Song? {
+        guard
+            let trackId = result.trackId,
+            let title = result.trackName?.trimmingCharacters(in: .whitespacesAndNewlines),
+            !title.isEmpty,
+            let artist = result.artistName?.trimmingCharacters(in: .whitespacesAndNewlines),
+            !artist.isEmpty
+        else {
+            return nil
+        }
+
+        let album = albumName ?? result.collectionName?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let artworkURL = result.artworkUrl100
+            .flatMap(URL.init(string:))
+            .map(higherResolutionArtworkURL)
+        let previewURL = result.previewUrl.flatMap(URL.init(string:))
+        let trackDuration = result.trackTimeMillis.map { TimeInterval($0) / 1_000 }
+        let collectionID = result.collectionId.map(String.init)
+
+        return Song(
+            id: String(trackId),
+            title: title,
+            artist: artist,
+            album: album?.isEmpty == false ? album : nil,
+            collectionID: collectionID,
             artworkURL: artworkURL,
             previewURL: previewURL,
             trackDuration: trackDuration

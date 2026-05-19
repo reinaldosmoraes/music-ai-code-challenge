@@ -25,6 +25,7 @@ protocol MusicPlayerViewModeling {
     var playbackProgress: Double { get }
     var canPlayPrevious: Bool { get }
     var canPlayNext: Bool { get }
+    var canViewAlbum: Bool { get }
 
     func onAppear() async
     func update(with model: MusicPlayerModel) async
@@ -33,7 +34,6 @@ protocol MusicPlayerViewModeling {
     func playNextTrack() async
     func togglePlayPause()
     func seek(to progress: Double)
-    func viewAlbum()
 }
 
 // MARK: - ViewModel
@@ -55,6 +55,12 @@ final class MusicPlayerViewModel: MusicPlayerViewModeling {
 
     private(set) var canPlayPrevious = false
     private(set) var canPlayNext = false
+    private(set) var collectionID: String?
+
+    var canViewAlbum: Bool {
+        guard let collectionID else { return false }
+        return !collectionID.isEmpty
+    }
 
     var formattedCurrentTime: String { Self.formatTime(currentTime) }
 
@@ -82,6 +88,7 @@ final class MusicPlayerViewModel: MusicPlayerViewModeling {
         artist = model.artist
         album = model.album
         artworkURL = model.artworkURL
+        collectionID = model.collectionID
         previewURL = model.previewURL
         self.audioService = audioService
         playlist = [model]
@@ -143,16 +150,13 @@ final class MusicPlayerViewModel: MusicPlayerViewModeling {
         syncPlaybackState()
     }
 
-    func viewAlbum() {
-        // Placeholder for future album screen navigation.
-    }
-
     private func applyModel(_ model: MusicPlayerModel) {
         currentTrackID = model.id
         title = model.title
         artist = model.artist
         album = model.album
         artworkURL = model.artworkURL
+        collectionID = model.collectionID
         previewURL = model.previewURL
         updateNavigationAvailability()
     }
