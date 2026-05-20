@@ -90,6 +90,9 @@ struct SongsView: View {
                 dismissKeyboard()
             }
         }
+        .task {
+            viewModel.loadRecentlyPlayed()
+        }
         .onChange(of: viewModel.searchText, initial: true) { _, _ in
             Task {
                 await viewModel.search()
@@ -99,21 +102,30 @@ struct SongsView: View {
 
     @ViewBuilder
     private var content: some View {
+        if viewModel.isShowingSearchResults {
+            searchResultsContent
+        } else if viewModel.showsRecentlyPlayed {
+            songList(items: viewModel.recentlyPlayedItems)
+        } else {
+            searchForSongsPromptState
+        }
+    }
+
+    @ViewBuilder
+    private var searchResultsContent: some View {
         if viewModel.isLoading, viewModel.songItems.isEmpty {
             ProgressView()
         } else if let errorMessage = viewModel.errorMessage {
             errorState(message: errorMessage)
-        } else if viewModel.isSearchPromptVisible {
-            searchPromptState
         } else if viewModel.showsEmptyState {
             emptyState
         } else {
-            songsList
+            songList(items: viewModel.songItems)
         }
     }
 
-    private var songsList: some View {
-        List(viewModel.songItems) { item in
+    private func songList(items: [SongListItem]) -> some View {
+        List(items) { item in
             SongCardView(viewModel: item.cardViewModel)
                 .contentShape(Rectangle())
                 .onTapGesture {
@@ -135,7 +147,7 @@ struct SongsView: View {
         .listStyle(.plain)
         .scrollDismissesKeyboard(.interactively)
         .overlay {
-            if viewModel.isLoading {
+            if viewModel.isLoading, viewModel.isShowingSearchResults {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                     .padding(.top, 8)
@@ -143,11 +155,11 @@ struct SongsView: View {
         }
     }
 
-    private var searchPromptState: some View {
+    private var searchForSongsPromptState: some View {
         ContentUnavailableView(
-            "Search iTunes",
+            "Search for songs",
             systemImage: "magnifyingglass",
-            description: Text("Type at least 2 characters to search iTunes.")
+            description: Text("Find your music on iTunes.")
         )
     }
 

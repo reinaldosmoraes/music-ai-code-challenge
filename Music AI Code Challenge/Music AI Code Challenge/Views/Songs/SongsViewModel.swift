@@ -27,11 +27,15 @@ protocol SongsViewModeling: AnyObject {
     var isLoading: Bool { get }
     var errorMessage: String? { get }
     var showsEmptyState: Bool { get }
-    var isSearchPromptVisible: Bool { get }
+    var showsSearchForSongsPrompt: Bool { get }
+    var showsRecentlyPlayed: Bool { get }
+    var recentlyPlayedItems: [SongListItem] { get }
+    var isShowingSearchResults: Bool { get }
     var isPlayerVisible: Bool { get }
     var miniPlayerBottomInset: CGFloat { get }
     var navigationPath: NavigationPath { get set }
 
+    func loadRecentlyPlayed()
     func search() async
     func selectSong(id: String)
     func selectSongFromAlbum(_ song: Song)
@@ -60,6 +64,7 @@ final class SongsViewModel: SongsViewModeling {
     var playerPresentation: MusicPlayerPresentation = .hidden
     private(set) var playerViewModel: MusicPlayerViewModel?
     private(set) var songItems: [SongListItem] = []
+    private(set) var recentlyPlayedItems: [SongListItem] = []
     private(set) var isLoading = false
     private(set) var errorMessage: String?
     private(set) var hasLoadedOnce = false
@@ -72,19 +77,28 @@ final class SongsViewModel: SongsViewModeling {
         playerPresentation == .minimized ? SearchConfiguration.miniPlayerHeight : 0
     }
 
+    var isShowingSearchResults: Bool {
+        normalizedSearchQuery.count >= SearchConfiguration.minimumCharacterCount
+    }
+
+    var showsRecentlyPlayed: Bool {
+        !isShowingSearchResults && !recentlyPlayedItems.isEmpty
+    }
+
+    var showsSearchForSongsPrompt: Bool {
+        !isShowingSearchResults && recentlyPlayedItems.isEmpty
+    }
+
     var showsEmptyState: Bool {
-        hasLoadedOnce
+        isShowingSearchResults
+            && hasLoadedOnce
             && !isLoading
             && errorMessage == nil
             && songItems.isEmpty
-            && !isSearchPromptVisible
-    }
-
-    var isSearchPromptVisible: Bool {
-        normalizedSearchQuery.count < SearchConfiguration.minimumCharacterCount
     }
 
     private let songsService: SongsFetching
+    private let recentlyPlayedStore: RecentlyPlayedStoring
     private var searchTask: Task<Void, Never>?
     private var songsByID: [String: Song] = [:]
     private var lastLoadedAlbumSongs: [Song] = []
@@ -93,8 +107,18 @@ final class SongsViewModel: SongsViewModeling {
         searchText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    nonisolated init(songsService: SongsFetching = ITunesSongsService()) {
+    nonisolated init(
+        songsService: SongsFetching = ITunesSongsService(),
+        recentlyPlayedStore: RecentlyPlayedStoring = FileRecentlyPlayedStore()
+    ) {
         self.songsService = songsService
+        self.recentlyPlayedStore = recentlyPlayedStore
+    }
+
+    func loadRecentlyPlayed() {
+        let songs = recentlyPlayedStore.fetchAll()
+        recentlyPlayedItems = songs.map(makeListItem(from:))
+        restoreSongsLookupFromRecentlyPlayed()
     }
 
     func search() async {
@@ -155,6 +179,8 @@ final class SongsViewModel: SongsViewModeling {
 
         let playerPlaylist = makePlaylist(from: playlist)
 
+        recordRecentlyPlayed(song)
+
         if let playerViewModel {
             playerViewModel.updatePlaylist(playerPlaylist, currentTrackID: playerModel.id)
             Task {
@@ -184,11 +210,26 @@ final class SongsViewModel: SongsViewModeling {
     }
 
     private func resetForInsufficientQuery() {
+        loadRecentlyPlayed()
         isLoading = false
         songItems = []
-        songsByID = [:]
         errorMessage = nil
         hasLoadedOnce = true
+    }
+
+    private func recordRecentlyPlayed(_ song: Song) {
+        recentlyPlayedStore.record(song)
+        loadRecentlyPlayed()
+    }
+
+    private func restoreSongsLookupFromRecentlyPlayed() {
+        songsByID = Dictionary(uniqueKeysWithValues: recentlyPlayedItems.map { ($0.id, $0.song) })
+    }
+
+    private func mergeSongsIntoLookup(_ songs: [Song]) {
+        for song in songs {
+            songsByID[song.id] = song
+        }
     }
 
     private func performSearch() async {
@@ -223,7 +264,14 @@ final class SongsViewModel: SongsViewModeling {
     }
 
     private func makePlaylist(from songs: [Song]? = nil) -> [MusicPlayerModel] {
-        let sourceSongs = songs ?? songItems.map(\.song)
+        let sourceSongs: [Song]
+        if let songs {
+            sourceSongs = songs
+        } else if isShowingSearchResults {
+            sourceSongs = songItems.map(\.song)
+        } else {
+            sourceSongs = recentlyPlayedItems.map(\.song)
+        }
         return sourceSongs.compactMap { MusicPlayerModel(song: $0) }
     }
 
