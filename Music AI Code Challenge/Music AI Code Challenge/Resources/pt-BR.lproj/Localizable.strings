@@ -1,2 +1,33 @@
-// MARK: - Song Card View
+// MARK: - Song Card
 "more_options" = "Mais opções";
+
+// MARK: - Songs
+"songs_title" = "Músicas";
+"search_songs_prompt" = "Buscar músicas";
+"search_for_songs_title" = "Buscar músicas";
+"search_for_songs_description" = "Encontre suas músicas no iTunes.";
+"no_songs_found_title" = "Nenhuma música encontrada";
+"no_songs_found_description" = "Tente outro termo de busca.";
+"error_generic_title" = "Algo deu errado";
+
+// MARK: - Album
+"album_load_error_title" = "Não foi possível carregar o álbum";
+
+// MARK: - Music Player
+"view_album" = "Ver álbum";
+"swipe_down_to_minimize" = "Deslize para baixo para minimizar";
+"previous_song" = "Música anterior";
+"next_song" = "Próxima música";
+"play" = "Reproduzir";
+"pause" = "Pausar";
+
+// MARK: - iTunes Errors
+"itunes_error_empty_search_term" = "Digite um termo de busca para encontrar músicas.";
+"itunes_error_invalid_url" = "Não foi possível montar a requisição de busca do iTunes.";
+"itunes_error_invalid_response" = "O serviço do iTunes retornou uma resposta inesperada.";
+"itunes_error_http_status" = "O serviço do iTunes retornou o código de status %lld.";
+"itunes_error_decoding_failed" = "Não foi possível ler os resultados da busca do iTunes.";
+
+// MARK: - Audio Errors
+"audio_error_configure_session" = "Não foi possível configurar a reprodução de áudio.";
+"audio_error_load_preview" = "Não foi possível carregar a prévia da música.";

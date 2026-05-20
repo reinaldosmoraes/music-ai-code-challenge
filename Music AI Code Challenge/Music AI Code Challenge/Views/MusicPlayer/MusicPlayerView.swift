@@ -91,7 +91,7 @@ struct MusicPlayerView: View {
             .padding(.top, 8)
             .padding(.bottom, 12)
             .frame(maxWidth: .infinity)
-            .accessibilityLabel("Swipe down to minimize")
+            .accessibilityLabel(LocalizedString.swipeDownToMinimize)
             .accessibilityAddTraits(.isButton)
             .accessibilityAction {
                 animateMinimizeFromDragPosition()
@@ -215,7 +215,7 @@ struct MusicPlayerView: View {
                 onExpand()
             }
 
-            Button("View album") {
+            Button(LocalizedString.viewAlbum) {
                 onViewAlbum()
             }
             .font(.system(size: 14, weight: .medium))
@@ -255,7 +255,7 @@ struct MusicPlayerView: View {
         HStack(spacing: ViewConstants.transportSpacing) {
             transportButton(
                 image: AppImages.backward,
-                accessibilityLabel: "Previous song",
+                accessibilityLabel: LocalizedString.previousSong,
                 isEnabled: viewModel.canPlayPrevious,
                 action: {
                     Task {
@@ -276,12 +276,12 @@ struct MusicPlayerView: View {
             }
             .buttonStyle(.glass)
             .buttonBorderShape(.circle)
-            .accessibilityLabel(viewModel.isPlaying ? "Pause" : "Play")
+            .accessibilityLabel(viewModel.isPlaying ? LocalizedString.pause : LocalizedString.play)
             .disabled(viewModel.errorMessage != nil)
 
             transportButton(
                 image: AppImages.forward,
-                accessibilityLabel: "Next song",
+                accessibilityLabel: LocalizedString.nextSong,
                 isEnabled: viewModel.canPlayNext,
                 action: {
                     Task {

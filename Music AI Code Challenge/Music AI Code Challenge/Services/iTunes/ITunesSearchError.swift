@@ -17,15 +17,15 @@ enum ITunesSearchError: LocalizedError, Sendable {
     var errorDescription: String? {
         switch self {
         case .emptySearchTerm:
-            return "Enter a search term to find songs."
+            return LocalizedString.itunesErrorEmptySearchTerm
         case .invalidURL:
-            return "Unable to build the iTunes search request."
+            return LocalizedString.itunesErrorInvalidURL
         case .invalidResponse:
-            return "The iTunes service returned an unexpected response."
+            return LocalizedString.itunesErrorInvalidResponse
         case .httpStatus(let statusCode):
-            return "The iTunes service returned status code \(statusCode)."
+            return LocalizedString.itunesErrorHTTPStatus(statusCode)
         case .decodingFailed:
-            return "Unable to read the iTunes search results."
+            return LocalizedString.itunesErrorDecodingFailed
         }
     }
 }

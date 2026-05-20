@@ -1,2 +1,33 @@
-// MARK: - Song Card View
+// MARK: - Song Card
 "more_options" = "More options";
+
+// MARK: - Songs
+"songs_title" = "Songs";
+"search_songs_prompt" = "Search songs";
+"search_for_songs_title" = "Search for songs";
+"search_for_songs_description" = "Find your music on iTunes.";
+"no_songs_found_title" = "No songs found";
+"no_songs_found_description" = "Try a different search term.";
+"error_generic_title" = "Something went wrong";
+
+// MARK: - Album
+"album_load_error_title" = "Unable to load album";
+
+// MARK: - Music Player
+"view_album" = "View album";
+"swipe_down_to_minimize" = "Swipe down to minimize";
+"previous_song" = "Previous song";
+"next_song" = "Next song";
+"play" = "Play";
+"pause" = "Pause";
+
+// MARK: - iTunes Errors
+"itunes_error_empty_search_term" = "Enter a search term to find songs.";
+"itunes_error_invalid_url" = "Unable to build the iTunes search request.";
+"itunes_error_invalid_response" = "The iTunes service returned an unexpected response.";
+"itunes_error_http_status" = "The iTunes service returned status code %lld.";
+"itunes_error_decoding_failed" = "Unable to read the iTunes search results.";
+
+// MARK: - Audio Errors
+"audio_error_configure_session" = "Unable to configure audio playback.";
+"audio_error_load_preview" = "Unable to load the song preview.";

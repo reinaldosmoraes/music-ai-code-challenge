@@ -33,7 +33,7 @@ struct AlbumView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else if let errorMessage = viewModel.errorMessage, viewModel.songItems.isEmpty {
                 ContentUnavailableView(
-                    "Unable to load album",
+                    LocalizedString.albumLoadErrorTitle,
                     systemImage: "exclamationmark.triangle",
                     description: Text(errorMessage)
                 )

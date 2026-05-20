@@ -88,9 +88,9 @@ private struct SongsRootView: View {
                     }
                 }
             }
-            .navigationTitle("Songs")
+            .navigationTitle(LocalizedString.songsTitle)
             .navigationBarTitleDisplayMode(.large)
-            .searchable(text: $viewModel.searchText, prompt: "Search songs")
+            .searchable(text: $viewModel.searchText, prompt: LocalizedString.searchSongsPrompt)
             .navigationDestination(for: AlbumRoute.self) { route in
                 AlbumView(
                     viewModel: AlbumViewModel(
@@ -185,23 +185,23 @@ private struct SongsRootView: View {
 
     private var searchForSongsPromptState: some View {
         ContentUnavailableView(
-            "Search for songs",
+            LocalizedString.searchForSongsTitle,
             systemImage: "magnifyingglass",
-            description: Text("Find your music on iTunes.")
+            description: Text(LocalizedString.searchForSongsDescription)
         )
     }
 
     private var emptyState: some View {
         ContentUnavailableView(
-            "No songs found",
+            LocalizedString.noSongsFoundTitle,
             systemImage: "music.note.list",
-            description: Text("Try a different search term.")
+            description: Text(LocalizedString.noSongsFoundDescription)
         )
     }
 
     private func errorState(message: String) -> some View {
         ContentUnavailableView(
-            "Something went wrong",
+            LocalizedString.errorGenericTitle,
             systemImage: "exclamationmark.triangle",
             description: Text(message)
         )

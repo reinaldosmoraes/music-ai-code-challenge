@@ -15,9 +15,9 @@ enum AudioPlaybackError: LocalizedError, Sendable {
     var errorDescription: String? {
         switch self {
         case .failedToConfigureSession:
-            return "Unable to configure audio playback."
+            return LocalizedString.audioErrorConfigureSession
         case .failedToLoadAsset:
-            return "Unable to load the song preview."
+            return LocalizedString.audioErrorLoadPreview
         }
     }
 }
