@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol RecentlyPlayedStoring: Sendable {
+@MainActor
+protocol RecentlyPlayedStoring {
     func fetchAll() -> [Song]
     func record(_ song: Song)
 }

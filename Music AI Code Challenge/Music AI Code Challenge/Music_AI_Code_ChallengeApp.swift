@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct Music_AI_Code_ChallengeApp: App {
@@ -30,5 +31,6 @@ struct Music_AI_Code_ChallengeApp: App {
                 }
             }
         }
+        .modelContainer(for: RecentlyPlayedSong.self)
     }
 }

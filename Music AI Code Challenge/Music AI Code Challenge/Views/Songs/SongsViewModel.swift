@@ -107,9 +107,9 @@ final class SongsViewModel: SongsViewModeling {
         searchText.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    nonisolated init(
+    init(
         songsService: SongsFetching = ITunesSongsService(),
-        recentlyPlayedStore: RecentlyPlayedStoring = FileRecentlyPlayedStore()
+        recentlyPlayedStore: RecentlyPlayedStoring
     ) {
         self.songsService = songsService
         self.recentlyPlayedStore = recentlyPlayedStore

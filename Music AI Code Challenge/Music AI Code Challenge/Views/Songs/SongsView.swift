@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 import UIKit
 
 private enum ViewConstants {
@@ -16,11 +17,38 @@ private enum ViewConstants {
 }
 
 struct SongsView: View {
-    @Bindable private var viewModel: SongsViewModel
+    @Environment(\.modelContext) private var modelContext
+    @State private var viewModel: SongsViewModel?
 
-    init(viewModel: SongsViewModel = SongsViewModel()) {
-        self.viewModel = viewModel
+    init(viewModel: SongsViewModel? = nil) {
+        _viewModel = State(initialValue: viewModel)
     }
+
+    var body: some View {
+        Group {
+            if let viewModel {
+                songsRoot(viewModel: viewModel)
+            } else {
+                ProgressView()
+                    .task {
+                        guard viewModel == nil else { return }
+                        viewModel = SongsViewModel(
+                            recentlyPlayedStore: SwiftDataRecentlyPlayedStore(context: modelContext)
+                        )
+                    }
+            }
+        }
+    }
+
+    private func songsRoot(viewModel: SongsViewModel) -> some View {
+        SongsRootView(viewModel: viewModel)
+    }
+}
+
+// MARK: - Root content
+
+private struct SongsRootView: View {
+    @Bindable var viewModel: SongsViewModel
 
     var body: some View {
         NavigationStack(path: $viewModel.navigationPath) {
@@ -182,10 +210,30 @@ struct SongsView: View {
 
 // MARK: - Preview
 
+extension SongsView {
+
 #Preview("iTunes") {
     SongsView()
+        .modelContainer(for: RecentlyPlayedSong.self, inMemory: true)
 }
 
 #Preview("Mock") {
-    SongsView(viewModel: SongsViewModel(songsService: MockSongsService()))
+    SongsView.preview(songsService: MockSongsService())
 }
+
+    static func preview(songsService: SongsFetching = ITunesSongsService()) -> some View {
+        let container = try! ModelContainer(
+            for: RecentlyPlayedSong.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(container)
+        return SongsView(
+            viewModel: SongsViewModel(
+                songsService: songsService,
+                recentlyPlayedStore: SwiftDataRecentlyPlayedStore(context: context)
+            )
+        )
+        .modelContainer(container)
+    }
+}
+
