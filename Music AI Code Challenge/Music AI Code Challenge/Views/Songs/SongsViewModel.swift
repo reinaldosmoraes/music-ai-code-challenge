@@ -99,6 +99,7 @@ final class SongsViewModel: SongsViewModeling {
 
     private let songsService: SongsFetching
     private let recentlyPlayedStore: RecentlyPlayedStoring
+    private let searchDebounceDuration: Duration
     private var searchTask: Task<Void, Never>?
     private var songsByID: [String: Song] = [:]
     private var lastLoadedAlbumSongs: [Song] = []
@@ -109,10 +110,12 @@ final class SongsViewModel: SongsViewModeling {
 
     init(
         songsService: SongsFetching = ITunesSongsService(),
-        recentlyPlayedStore: RecentlyPlayedStoring
+        recentlyPlayedStore: RecentlyPlayedStoring,
+        searchDebounceDuration: Duration = SearchConfiguration.debounceDuration
     ) {
         self.songsService = songsService
         self.recentlyPlayedStore = recentlyPlayedStore
+        self.searchDebounceDuration = searchDebounceDuration
     }
 
     func loadRecentlyPlayed() {
@@ -130,7 +133,7 @@ final class SongsViewModel: SongsViewModeling {
         }
 
         searchTask = Task { [weak self] in
-            try? await Task.sleep(for: SearchConfiguration.debounceDuration)
+            try? await Task.sleep(for: self?.searchDebounceDuration ?? SearchConfiguration.debounceDuration)
             guard !Task.isCancelled else { return }
             await self?.performSearch()
         }
