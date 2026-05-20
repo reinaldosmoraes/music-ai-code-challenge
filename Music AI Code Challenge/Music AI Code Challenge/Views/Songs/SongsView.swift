@@ -23,7 +23,7 @@ struct SongsView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $viewModel.navigationPath) {
             GeometryReader { geometry in
                 ZStack(alignment: .bottom) {
                     Color(.systemBackground)
@@ -50,6 +50,10 @@ struct SongsView: View {
                                 withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
                                     viewModel.expandPlayer()
                                 }
+                            },
+                            onViewAlbum: {
+                                dismissKeyboard()
+                                viewModel.openCurrentAlbum()
                             }
                         )
                         .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -59,6 +63,21 @@ struct SongsView: View {
             .navigationTitle("Songs")
             .navigationBarTitleDisplayMode(.large)
             .searchable(text: $viewModel.searchText, prompt: "Search songs")
+            .navigationDestination(for: AlbumRoute.self) { route in
+                AlbumView(
+                    viewModel: AlbumViewModel(
+                        route: route,
+                        onSelectSong: { song in
+                            withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
+                                viewModel.selectSongFromAlbum(song)
+                            }
+                        },
+                        onSongsLoaded: { songs in
+                            viewModel.registerSongs(songs)
+                        }
+                    )
+                )
+            }
         }
         .animation(.spring(response: 0.35, dampingFraction: 0.86), value: viewModel.playerPresentation)
         .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in

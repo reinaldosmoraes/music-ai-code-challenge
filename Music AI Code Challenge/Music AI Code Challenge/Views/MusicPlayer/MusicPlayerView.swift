@@ -36,6 +36,7 @@ struct MusicPlayerView: View {
     let expandedHeight: CGFloat
     let onMinimize: () -> Void
     let onExpand: () -> Void
+    let onViewAlbum: () -> Void
 
     @State private var dragOffset: CGFloat = 0
 
@@ -215,11 +216,12 @@ struct MusicPlayerView: View {
             }
 
             Button("View album") {
-                viewModel.viewAlbum()
+                onViewAlbum()
             }
             .font(.system(size: 14, weight: .medium))
             .foregroundStyle(.primary)
             .buttonStyle(.plain)
+            .disabled(!viewModel.canViewAlbum)
         }
         .padding(.horizontal, ViewConstants.horizontalPadding)
         .padding(.vertical, 12)
@@ -375,7 +377,8 @@ private struct MusicPlayerArtworkView: View {
                     presentation: $presentation,
                     expandedHeight: 600,
                     onMinimize: { presentation = .minimized },
-                    onExpand: { presentation = .expanded }
+                    onExpand: { presentation = .expanded },
+                    onViewAlbum: {}
                 )
             }
         }

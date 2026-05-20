@@ -12,6 +12,7 @@ struct Song: Identifiable, Equatable, Sendable {
     let title: String
     let artist: String
     let album: String?
+    let collectionID: String?
     let artworkURL: URL?
     let previewURL: URL?
     let trackDuration: TimeInterval?
@@ -21,6 +22,7 @@ struct Song: Identifiable, Equatable, Sendable {
         title: String,
         artist: String,
         album: String? = nil,
+        collectionID: String? = nil,
         artworkURL: URL? = nil,
         previewURL: URL? = nil,
         trackDuration: TimeInterval? = nil
@@ -29,6 +31,7 @@ struct Song: Identifiable, Equatable, Sendable {
         self.title = title
         self.artist = artist
         self.album = album
+        self.collectionID = collectionID
         self.artworkURL = artworkURL
         self.previewURL = previewURL
         self.trackDuration = trackDuration
@@ -36,6 +39,15 @@ struct Song: Identifiable, Equatable, Sendable {
 
     var isPlayable: Bool {
         previewURL != nil
+    }
+
+    func toAlbumTrackCardModel() -> SongCardModel {
+        SongCardModel(
+            id: id,
+            title: title,
+            subtitle: artist,
+            artworkURL: artworkURL
+        )
     }
 
     func toCardModel() -> SongCardModel {
