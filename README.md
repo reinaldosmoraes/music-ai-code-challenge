@@ -42,49 +42,49 @@ An iOS music discovery app that searches the iTunes catalog, plays song previews
 
 ### App demo
 
-<video src="./Screenshots/App demo.mov" controls playsinline width="600">
+<video src="./Screenshots/App demo.mov" controls playsinline width="480">
   <a href="./Screenshots/App demo.mov">Download App demo.mov</a>
 </video>
 
 ### Splash screen
 
-**Light mode**
-
-![Splash screen — light mode](<./Screenshots/Splash Screen - light mode.png>)
-
-**Dark mode**
-
-![Splash screen — dark mode](<./Screenshots/Splash Screen - dark mode.png>)
+<p align="center">
+  <img src="./Screenshots/Splash Screen - light mode.png" alt="Splash screen — light mode" width="240" />
+  &nbsp;&nbsp;
+  <img src="./Screenshots/Splash Screen - dark mode.png" alt="Splash screen — dark mode" width="240" />
+  <br />
+  <sub>Light mode &nbsp;·&nbsp; Dark mode</sub>
+</p>
 
 ### Songs screen (Home)
 
-**Light mode**
-
-![Songs screen — light mode](<./Screenshots/Songs View - light mode.png>)
-
-**Dark mode**
-
-![Songs screen — dark mode](<./Screenshots/Songs View - dark mode.png>)
+<p align="center">
+  <img src="./Screenshots/Songs View - light mode.png" alt="Songs screen — light mode" width="240" />
+  &nbsp;&nbsp;
+  <img src="./Screenshots/Songs View - dark mode.png" alt="Songs screen — dark mode" width="240" />
+  <br />
+  <sub>Light mode &nbsp;·&nbsp; Dark mode</sub>
+</p>
 
 ### Song details (Player)
 
-**Light mode**
-
-![Music player — light mode](<./Screenshots/Music Player View - light mode.png>)
-
-**Dark mode**
-
-![Music player — dark mode](<./Screenshots/Music Player View - dark mode.png>)
+<p align="center">
+  <img src="./Screenshots/Music Player View - light mode.png" alt="Music player — light mode" width="240" />
+  &nbsp;&nbsp;
+  <img src="./Screenshots/Music Player View - dark mode.png" alt="Music player — dark mode" width="240" />
+  <br />
+  <sub>Light mode &nbsp;·&nbsp; Dark mode</sub>
+</p>
 
 ### Album screen
 
-**Light mode**
-
-![Album screen — light mode](<./Screenshots/Album View - light mode.png>)
-
-**Dark mode**
-
-![Album screen — dark mode](<./Screenshots/Album View - dark mode.png>)
+<p align="center">
+  <img src="./Screenshots/Album View - light mode.png" alt="Album screen — light mode" width="240" />
+  &nbsp;&nbsp;
+  <img src="./Screenshots/Album View - dark mode.png" alt="Album screen — dark mode" width="240" />
+  <br />
+  <sub>Light mode &nbsp;·&nbsp; Dark mode</sub>
+</p>
 
 ---
 
