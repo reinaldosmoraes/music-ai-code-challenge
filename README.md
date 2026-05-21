@@ -42,31 +42,49 @@ An iOS music discovery app that searches the iTunes catalog, plays song previews
 
 ### App demo
 
-[App demo.mov](Screenshots/App%20demo.mov)
+<video src="./Screenshots/App demo.mov" controls playsinline width="600">
+  <a href="./Screenshots/App demo.mov">Download App demo.mov</a>
+</video>
 
 ### Splash screen
 
-| Light mode | Dark mode |
-|------------|-----------|
-| ![Splash screen in light mode](Screenshots/Splash%20Screen%20-%20light%20mode.png) | ![Splash screen in dark mode](Screenshots/Splash%20Screen%20-%20dark%20mode.png) |
+**Light mode**
+
+![Splash screen — light mode](<./Screenshots/Splash Screen - light mode.png>)
+
+**Dark mode**
+
+![Splash screen — dark mode](<./Screenshots/Splash Screen - dark mode.png>)
 
 ### Songs screen (Home)
 
-| Light mode | Dark mode |
-|------------|-----------|
-| ![Songs screen in light mode](Screenshots/Songs%20View%20-%20light%20mode.png) | ![Songs screen in dark mode](Screenshots/Songs%20View%20-%20dark%20mode.png) |
+**Light mode**
+
+![Songs screen — light mode](<./Screenshots/Songs View - light mode.png>)
+
+**Dark mode**
+
+![Songs screen — dark mode](<./Screenshots/Songs View - dark mode.png>)
 
 ### Song details (Player)
 
-| Light mode | Dark mode |
-|------------|-----------|
-| ![Music player in light mode](Screenshots/Music%20Player%20View%20-%20light%20mode.png) | ![Music player in dark mode](Screenshots/Music%20Player%20View%20-%20dark%20mode.png) |
+**Light mode**
+
+![Music player — light mode](<./Screenshots/Music Player View - light mode.png>)
+
+**Dark mode**
+
+![Music player — dark mode](<./Screenshots/Music Player View - dark mode.png>)
 
 ### Album screen
 
-| Light mode | Dark mode |
-|------------|-----------|
-| ![Album screen in light mode](Screenshots/Album%20View%20-%20light%20mode.png) | ![Album screen in dark mode](Screenshots/Album%20View%20-%20dark%20mode.png) |
+**Light mode**
+
+![Album screen — light mode](<./Screenshots/Album View - light mode.png>)
+
+**Dark mode**
+
+![Album screen — dark mode](<./Screenshots/Album View - dark mode.png>)
 
 ---
 
