@@ -42,9 +42,13 @@ An iOS music discovery app that searches the iTunes catalog, plays song previews
 
 ### App demo
 
-<video src="./Screenshots/App demo.mov" controls playsinline width="480">
-  <a href="./Screenshots/App demo.mov">Download App demo.mov</a>
-</video>
+<p align="center">
+  <video controls playsinline preload="metadata" width="480" poster="./Screenshots/Splash%20Screen%20-%20light%20mode.png">
+    <source src="./Screenshots/App%20demo.m4v" type="video/mp4" />
+    <a href="./Screenshots/App%20demo.m4v">Download App demo (MP4)</a>
+  </video>
+</p>
+<p align="center"><sub>Press play to watch in the README · <a href="./Screenshots/App%20demo.mov">Full-quality MOV (19&nbsp;MB)</a></sub></p>
 
 ### Splash screen
 
