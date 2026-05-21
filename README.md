@@ -40,39 +40,33 @@ An iOS music discovery app that searches the iTunes catalog, plays song previews
 
 ## Screenshots
 
-_Add screenshots below after running the app on a simulator or device._
+### App demo
+
+[App demo.mov](Screenshots/App%20demo.mov)
 
 ### Splash screen
 
-<!-- Replace with: screenshot-splash-light.png / screenshot-splash-dark.png -->
-
 | Light mode | Dark mode |
 |------------|-----------|
-| _Add screenshot_ | _Add screenshot_ |
+| ![Splash screen in light mode](Screenshots/Splash%20Screen%20-%20light%20mode.png) | ![Splash screen in dark mode](Screenshots/Splash%20Screen%20-%20dark%20mode.png) |
 
 ### Songs screen (Home)
 
-<!-- Replace with: screenshot-songs-light.png / screenshot-songs-dark.png -->
-
 | Light mode | Dark mode |
 |------------|-----------|
-| _Add screenshot_ | _Add screenshot_ |
+| ![Songs screen in light mode](Screenshots/Songs%20View%20-%20light%20mode.png) | ![Songs screen in dark mode](Screenshots/Songs%20View%20-%20dark%20mode.png) |
 
 ### Song details (Player)
 
-<!-- Replace with: screenshot-player-expanded-light.png / screenshot-player-minimized-dark.png -->
-
-| Expanded | Minimized |
-|----------|-----------|
-| _Add screenshot_ | _Add screenshot_ |
+| Light mode | Dark mode |
+|------------|-----------|
+| ![Music player in light mode](Screenshots/Music%20Player%20View%20-%20light%20mode.png) | ![Music player in dark mode](Screenshots/Music%20Player%20View%20-%20dark%20mode.png) |
 
 ### Album screen
 
-<!-- Replace with: screenshot-album-light.png / screenshot-album-dark.png -->
-
 | Light mode | Dark mode |
 |------------|-----------|
-| _Add screenshot_ | _Add screenshot_ |
+| ![Album screen in light mode](Screenshots/Album%20View%20-%20light%20mode.png) | ![Album screen in dark mode](Screenshots/Album%20View%20-%20dark%20mode.png) |
 
 ---
 
